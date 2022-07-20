@@ -1,0 +1,58 @@
+//1
+db.restaurants.find().pretty();
+
+//2
+db.restaurants.find({},{"restaurant_id" : 1, "name": 1, "borough":1, "cuisine":1}).pretty();
+
+//3
+db.restaurants.find({},{"restaurant_id" : 1, "name": 1, "borough":1, "cuisine":1, "_id":0}).pretty();
+
+//4
+db.restaurants.find({},{"restaurant_id" : 1, "name": 1, "borough":1, address:{"zipcode":1}, "_id":0}).pretty();
+
+//5
+db.restaurants.find({borough: "Bronx"}).pretty();
+
+//6
+db.restaurants.find({borough: "Bronx"}).limit(15).pretty();
+
+//7 
+db.restaurants.find({borough: "Bronx"}).skip(10).limit(15).pretty();
+
+//8 
+db.restaurants.find({grades : { $elemMatch:{"score":{$gt : 100}}}});
+
+//9 
+db.restaurants.find({grades : { $elemMatch:{"score":{$gt : 60 , $lt :95}}}});
+
+
+//10 
+db.restaurants.find({"address.coord" : {$lt : -65.754168}}).pretty();
+
+//11 
+db.restaurants.find({$and: [{"cuisine" : {$ne :"American "}},{"grades.score" : {$gt : 70}},{"address.coord" : {$lt : -65.754168}}]}).pretty();
+
+//12 
+db.restaurants.find( {"cuisine" : {$ne : "American "}, "grades.grade" :"A", "borough": {$ne : "Brooklyn"}}).sort({"cuisine":-1}).pretty();
+
+
+//13
+db.restaurants.find({name:/^Wil/}, {"restaurant_id":1, "name":1, "borough":1}).pretty();
+
+//14
+db.restaurants.find({"borough": "Bronx", $or:[{"cuisine": "American"},{"cuisine": "Chinese"}]}).pretty();
+
+//15
+db.restaurants.find({"borough" :{$in :["Staten Island","Queens","Bronx","Brooklyn"]}},{"restaurant_id" : 1,"name":1,"borough":1,"cuisine" :1}).pretty();
+
+//16
+db.restaurants.find({"borough" :{$nin :["Staten Island","Queens","Bronx","Brooklyn"]}},{"restaurant_id" : 1,"name":1,"borough":1,"cuisine" :1}).pretty();
+
+//17
+db.restaurants.find({"grades.score" :{$mod : [7,0]}},{"restaurant_id" : 1,"name":1,"grades":1}).pretty();
+
+//18
+db.restaurants.find({"name": /.*mon.*/},{"name":1,"borough":1,"cuisine" :1, "address.coord": 1}).pretty();
+
+//19
+db.restaurants.find({ name : { $regex : /^Mad/i,}},{"name":1,"borough":1,"address.coord":1,"cuisine" :1}).pretty();
